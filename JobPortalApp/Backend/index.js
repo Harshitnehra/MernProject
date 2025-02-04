@@ -3,7 +3,10 @@ import express from "express"
 import cors from "cors"
 import connectDB from "./utils/db.js"; // Import DB connection
 import dotenv from "dotenv";
-import authRoutes from "./routes/userRoutes.js";
+import UserRoutes from "./routes/userRoutes.js";
+import companyroutes from "./routes/companyRoutes.js";
+import jobsroutes from "./routes/jobRouters.js";
+
 dotenv.config({}); 
 const app = express();
 
@@ -21,7 +24,9 @@ app.use(cors(corsoptions));
 connectDB();
 
 // Routes
-app.use("/api/v1/user", authRoutes);
+app.use("/api/v1/user", UserRoutes);
+app.use("/api/v1/company", companyroutes);
+app.use("/api/v1/job", jobsroutes);
 
 app.get("/", (req, res) => {
   res.send("Hello, harshit!");
