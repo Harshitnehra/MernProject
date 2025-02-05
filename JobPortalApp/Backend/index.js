@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import UserRoutes from "./routes/userRoutes.js";
 import companyroutes from "./routes/companyRoutes.js";
 import jobsroutes from "./routes/jobRouters.js";
+import applicationroutes from "./routes/applicationRoute.js";
 
 dotenv.config({}); 
 const app = express();
@@ -27,6 +28,7 @@ connectDB();
 app.use("/api/v1/user", UserRoutes);
 app.use("/api/v1/company", companyroutes);
 app.use("/api/v1/job", jobsroutes);
+app.use("/api/v1/application", applicationroutes);
 
 app.get("/", (req, res) => {
   res.send("Hello, harshit!");
