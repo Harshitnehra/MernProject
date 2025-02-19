@@ -6,8 +6,9 @@ export const AppContext = createContext();
 
 // Define the context provider
 const AppContextProvider = (props) => {
+  const currencySymbol = '$'
   const value = {
-    doctors, // Passing the doctors data into context
+    doctors, currencySymbol// Passing the doctors data into context
   };
 
   return (
