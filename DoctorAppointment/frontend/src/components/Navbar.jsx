@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets_frontend/assets.js";
+import { AppContext } from "../context/AppContext.jsx";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
-  const [token, setToken] = useState(true);
+  const {token, setToken , userData} = useContext(AppContext)
+  // const [token, setToken] = useState(true);
+  const logout = () =>{
+    setToken(false);
+    localStorage.removeItem('token');
+  }
 
   return (
     <nav className="flex justify-between items-center py-4 px-6 bg-white shadow-md relative">
@@ -70,14 +76,14 @@ const Navbar = () => {
       </div>
 
       {/* Profile / Login Button */}
-      {token ? (
+      {token && userData ? (
         <div className="relative">
           <div
             className="flex items-center cursor-pointer space-x-2"
             onClick={() => setShowMenu(!showMenu)}
           >
             <img
-              src={assets.profile_pic}
+              src={userData.image}
               alt="Profile"
               className="w-10 h-10 rounded-full"
             />
@@ -105,7 +111,7 @@ const Navbar = () => {
               </p>
               <p
                 className="px-4 py-2 text-red-600 hover:bg-red-100 cursor-pointer"
-                onClick={() => setToken(false)}
+                onClick={logout}
               >
                 Logout
               </p>

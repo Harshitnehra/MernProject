@@ -32,8 +32,10 @@ const Todoctor = () => {
             />
             <div className="mt-4">
               <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-500">Available</p>
-                <span className="text-green-500 font-semibold">✔</span>
+              <p className={`text-sm ${item.available ? "text-green-500" : "text-red-500"}`}>
+                      {item.available ? "Available" : "Not Available"}
+                    </p>
+                    <span className={item.available ? "text-green-500" : "text-red-500"}>✔</span>
               </div>
               <p className="text-lg font-semibold text-gray-800 mt-2">{item.name}</p>
               <p className="text-gray-600">{item.speciality}</p>

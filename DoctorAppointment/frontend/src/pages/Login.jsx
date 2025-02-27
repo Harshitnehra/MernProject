@@ -1,14 +1,51 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AppContext } from "../context/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const {token, setToken,backendUrl} = useContext(AppContext)
   const [state, setState] = useState("Sign up");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const navigate = useNavigate()
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    try {
+      if (state === "Sign up") {
+        const { data } = await axios.post(backendUrl + "/api/user/register", { name, email, password });
+        if (data.success) {
+          localStorage.setItem("token", data.token);
+          setToken(data.token);
+          // console.log("Token:", data.token);
+          toast.success("Registration Successful!");
+        } else {
+          toast.error(data.message);
+        }
+      }else{
+        const { data } = await axios.post(backendUrl + "/api/user/login", { email, password });
+        if (data.success) {
+          localStorage.setItem("token", data.token);
+          setToken(data.token);
+          // console.log("Token:", data.token);
+          toast.success("Login Successful!");
+        } else {
+          toast.error(data.message);
+        }
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
   };
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token])
+  
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -17,7 +54,7 @@ const Login = () => {
         className="bg-white shadow-lg rounded-lg p-8 w-96"
       >
         <h2 className="text-2xl font-semibold text-center text-gray-800">
-          {state === "Sign up" ? "Create Account" : "Login"}
+      first    {state === "Sign up" ? "Create Account" : "Login"}
         </h2>
         <p className="text-gray-600 text-center mb-6">
           Please {state === "Sign up" ? "sign up" : "log in"} to book an
